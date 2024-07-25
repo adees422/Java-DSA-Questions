@@ -1,0 +1,67 @@
+class hi
+{
+    public static int m1(int arr[],int pages)
+    {
+        int student=1;
+        int cap=0;
+        for(int i=0;i< arr.length;i++)
+        {
+            if(arr[i]+cap<=pages)
+            {
+                cap+=arr[i];
+            }
+            else {
+                student++;
+                cap=arr[i];
+            }
+        }
+        return student;
+    }
+    public static int sum(int arr[])
+    {
+        int sum=0;
+        for(int i=0;i< arr.length;i++)
+        {
+            sum+=arr[i];
+        }
+        return sum;
+    }
+
+    public static int max(int arr[])
+    {
+
+        int max=0;
+        for(int i=0;i< arr.length;i++)
+        {
+            max=Math.max(arr[i],max);
+        }
+        return max;
+    }
+    public static int m2(int arr[],int n,int m)
+    {
+        int low=max(arr);
+        int high=sum(arr);
+        while(low<=high)
+        {
+            int mid=(low+high)/2;
+            int students=m1(arr,mid);
+            if(students>m)
+            {
+                low=mid+1;
+            }
+            else {
+                high=mid-1;
+            }
+        }
+        return low;
+    }
+    public static void main(String[]args)
+    {
+        int arr[]={25,46,28,49,24};
+        int n=5;
+        int m=4;
+        int ans=m2(arr,n,m);
+        System.out.print(ans);
+    }
+
+}
