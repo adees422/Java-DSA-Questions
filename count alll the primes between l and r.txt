@@ -1,0 +1,65 @@
+import java.util.Arrays;
+
+ class CountPrimesInRange {
+
+    public static void main(String[] args) {
+        int l = 10; // Start of the range
+        int r = 50; // End of the range
+
+        if (l > r) {
+            System.out.println("Invalid range: l should be less than or equal to r.");
+            return;
+        }
+
+        int primeCount = countPrimesInRange(l, r);
+        System.out.println("Number of prime numbers between " + l + " and " + r + ": " + primeCount);
+    }
+
+    public static int countPrimesInRange(int l, int r) {
+        // Calculate primes up to the square root of r using Sieve of Eratosthenes
+        boolean[] smallPrimes = sieveOfEratosthenes((int) Math.sqrt(r));
+
+        // Boolean array to mark primes in the range [l, r]
+        boolean[] isPrimeInRange = new boolean[r - l + 1];
+        Arrays.fill(isPrimeInRange, true);
+
+        // Mark non-primes in the range using small primes
+        for (int i = 2; i < smallPrimes.length; i++) {
+            if (smallPrimes[i]) {
+                // Find the minimum multiple of i in the range [l, r]
+                int start = Math.max(i * i, (l + i - 1) / i * i);
+                for (int j = start; j <= r; j += i) {
+                    isPrimeInRange[j - l] = false;
+                }
+            }
+        }
+
+        // Count primes in the range
+        int primeCount = 0;
+        for (int i = 0; i < isPrimeInRange.length; i++) {
+            if (isPrimeInRange[i] && (i + l) >= 2) {
+                primeCount++;
+            }
+        }
+
+        return primeCount;
+    }
+
+    public static boolean[] sieveOfEratosthenes(int n) {
+        boolean[] isPrime = new boolean[n + 1];
+        Arrays.fill(isPrime, true);
+
+        isPrime[0] = false; // 0 is not a prime number
+        isPrime[1] = false; // 1 is not a prime number
+
+        for (int p = 2; p * p <= n; p++) {
+            if (isPrime[p]) {
+                for (int multiple = p * p; multiple <= n; multiple += p) {
+                    isPrime[multiple] = false;
+                }
+            }
+        }
+
+        return isPrime;
+    }
+}
