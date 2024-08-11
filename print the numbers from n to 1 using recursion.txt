@@ -1,0 +1,18 @@
+//print your name n times using recursin
+class hi
+{
+    public static void m1(int i,int n)
+    {
+       if(i<1)return;
+
+       System.out.println(i);
+       i=i-1;
+       m1(i,n);
+
+    }
+    public static void main(String[]args)
+    {
+        int n=3;
+        m1(n,n);
+    }
+}
