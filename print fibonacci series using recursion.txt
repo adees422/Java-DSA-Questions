@@ -1,0 +1,15 @@
+class hi
+{
+    public static int m1(int n)
+    {
+        if(n<=1)return n;
+     int last=m1(n-1);
+     int sl=m1(n-2);
+     return last+sl;
+    }
+    public static void main(String[]aes)
+    {
+        int n=4;
+        System.out.print(m1(n));
+    }
+}
