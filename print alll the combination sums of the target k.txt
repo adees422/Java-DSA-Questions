@@ -1,0 +1,41 @@
+import java.util.ArrayList;
+import java.util.List;
+
+class hi
+{
+    public static void m1(int i, int arr2[], int t, List<List<Integer>>ans, List<Integer> lst)
+    {
+        if(i== arr2.length)
+        {
+            if(t==0)
+            {
+                ans.add(new ArrayList<>(lst));
+            }
+            return ;
+        }
+        if(arr2[i]<=t)
+        {
+            lst.add(arr2[i]);
+            m1(i,arr2,t-arr2[i],ans,lst);
+            lst.remove(lst.size()-1);
+
+        }
+        m1(i+1,arr2,t,ans,lst);
+    }
+    public static List<List<Integer>>m2(int arr[],int target)
+    {
+        List<List<Integer>>ans=new ArrayList<>();
+        m1(0,arr,target,ans,new ArrayList<>());
+        return ans;
+    }
+    public static void  main(String[]aers)
+    {
+        int arr[]={2,3,6,7};
+        int target=7;
+
+        List<List<Integer>> result = m2(arr, target);
+        for (List<Integer> list : result) {
+            System.out.println(list);
+        }
+    }
+}
