@@ -1,0 +1,36 @@
+ class TriangleMinimumPathSum {
+    public static void main(String[] args) {
+        // Example triangle
+        int[][] triangle = {
+                {2},
+                {3, 4},
+                {6, 5, 7},
+                {4, 1, 8, 3}
+        };
+
+        // Calculate the minimum path sum
+        int minPathSum = findMinimumPathSum(triangle);
+        System.out.println("Minimum Path Sum: " + minPathSum);
+    }
+
+    public static int findMinimumPathSum(int[][] triangle) {
+        return findMinimumPathSum(triangle, 0, 0);
+    }
+
+    // Recursive method to find minimum path sum
+    private static int findMinimumPathSum(int[][] triangle, int row, int col) {
+        // Base case: if we're at the last row
+        if (row == triangle.length - 1) {
+            return triangle[row][col];
+        }
+
+        // Calculate the path sums for the two possible moves
+        int leftPathSum = findMinimumPathSum(triangle, row + 1, col);
+        int rightPathSum = findMinimumPathSum(triangle, row + 1, col + 1);
+
+        // Return the minimum path sum including the current position
+        return triangle[row][col] + Math.min(leftPathSum, rightPathSum);
+    }
+}
+4
+4
