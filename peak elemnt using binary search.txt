@@ -1,0 +1,19 @@
+s class PeakElement {
+
+    public static void main(String[] args) {
+        int[] arr = {1, 3, 20, 4, 1};  // Example array
+        int peak = findPeakElement(arr);
+        if (peak != -1) {
+            System.out.println("Peak element is " + arr[peak] + " at index " + peak);
+        } else {
+            System.out.println("No peak element found.");
+        }
+    }
+
+    // Function to find a peak element using binary search
+    public static int findPeakElement(int[] arr) {
+        return findPeakUtil(arr, 0, arr.length - 1);
+    }
+
+    // Utility function to perform binary search for peak
+    private static int findPeakUtil(int[] a
