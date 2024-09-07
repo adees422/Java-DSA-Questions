@@ -1,25 +1,52 @@
-import java.util.*;
-class Main {
-    static int solve(String s) {
-        HashMap < Character, Integer > mpp = new HashMap < Character, Integer > ();
+import java.util.HashMap;
 
-        int left = 0, right = 0;
-        int n = s.length();
-        int len = 0;
-        while (right < n) {
-            if (mpp.containsKey(s.charAt(right))) left = Math.max(mpp.get(s.charAt(right)) + 1, left);
+public class LongestRepeatingCharacterReplacement {
 
-            mpp.put(s.charAt(right), right);
+    public static int characterReplacement(String s, int k) {
+        int maxLength = 0;
 
-            len = Math.max(len, right - left + 1);
-            right++;
+        // Check for each character from 'A' to 'Z'
+        for (char targetChar = 'A'; targetChar <= 'Z'; targetChar++) {
+            maxLength = Math.max(maxLength, getMaxLengthForChar(s, targetChar, k));
         }
-        return len;
+
+        return maxLength;
     }
 
-    public static void main(String args[]) {
-        String str ="zsdsvabdss";
-        System.out.println(solve(str));
+    private static int getMaxLengthForChar(String s, char targetChar, int k) {
+        HashMap<Character, Integer> charCountMap = new HashMap<>();
+        int start = 0;
+        int maxLength = 0;
+        int maxCount = 0; // Max frequency of the current targetChar in the window
 
+        for (int end = 0; end < s.length(); end++) {
+            char endChar = s.charAt(end);
+            charCountMap.put(endChar, charCountMap.getOrDefault(endChar, 0) + 1);
+
+            if (endChar == targetChar) {
+                maxCount++;
+            }
+
+            // Window size minus number of targetChar should be within k
+            int currentWindowSize = end - start + 1;
+            if (currentWindowSize - maxCount > k) {
+                char startChar = s.charAt(start);
+                charCountMap.put(startChar, charCountMap.get(startChar) - 1);
+                if (startChar == targetChar) {
+                    maxCount--;
+                }
+                start++;
+            }
+
+            maxLength = Math.max(maxLength, end - start + 1);
+        }
+
+        return maxLength;
+    }
+
+    public static void main(String[] args) {
+        String s = "AABABBA";
+        int k = 1;
+        System.out.println("Longest length after replacement: " + characterReplacement(s, k));
     }
 }
