@@ -1,0 +1,64 @@
+import java.util.HashMap;
+import java.util.Map;
+
+ class MinimumWindowSubstring {
+
+    // Method to find the minimum window substring
+    public static String minWindow(String s, String t) {
+        if (s == null || t == null || s.length() < t.length()) {
+            return "";
+        }
+
+        // Create a frequency map for characters in t
+        Map<Character, Integer> tFreqMap = new HashMap<>();
+        for (char c : t.toCharArray()) {
+            tFreqMap.put(c, tFreqMap.getOrDefault(c, 0) + 1);
+        }
+
+        int minLength = Integer.MAX_VALUE;
+        String minWindow = "";
+
+        // Check all substrings of s
+        for (int start = 0; start < s.length(); start++) {
+            // Create a frequency map for characters in the current window
+            Map<Character, Integer> windowFreqMap = new HashMap<>();
+            int count = 0; // Count of characters from t that are present in the current window
+
+            for (int end = start; end < s.length(); end++) {
+                char currentChar = s.charAt(end);
+                windowFreqMap.put(currentChar, windowFreqMap.getOrDefault(currentChar, 0) + 1);
+
+                // Check if the current window contains all characters of t with the required frequency
+                if (containsAllChars(windowFreqMap, tFreqMap)) {
+                    int windowLength = end - start + 1;
+                    if (windowLength < minLength) {
+                        minLength = windowLength;
+                        minWindow = s.substring(start, end + 1);
+                    }
+                }
+            }
+        }
+
+        return minWindow;
+    }
+
+    // Helper method to check if windowFreqMap contains all characters from tFreqMap
+    private static boolean containsAllChars(Map<Character, Integer> windowFreqMap, Map<Character, Integer> tFreqMap) {
+        for (Map.Entry<Character, Integer> entry : tFreqMap.entrySet()) {
+            char key = entry.getKey();
+            int value = entry.getValue();
+            if (windowFreqMap.getOrDefault(key, 0) < value) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        String s = "ADOBECODEBANC";
+        String t = "ABC";
+
+        String result = minWindow(s, t);
+        System.out.println("Minimum window substring: " + result);
+    }
+}
