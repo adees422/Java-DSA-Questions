@@ -1,0 +1,61 @@
+ class SwapNodesInPairs {
+
+    // Definition for singly-linked list.
+    public static class ListNode {
+        int val;
+        ListNode next;
+        ListNode(int x) { val = x; }
+    }
+
+    public static ListNode swapPairs(ListNode head) {
+        // Create a dummy node that acts as a starting point
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode prev = dummy; // Pointer to the node before the current pair
+
+        while (head != null ) {
+            // Initialize pointers for the pair to be swapped
+            ListNode first = head;
+            ListNode second = head.next;
+
+            // Perform the swap
+            prev.next = second;
+            first.next = second.next;
+            second.next = first;
+
+            // Move to the next pair
+            prev = first;
+            head = first.next;
+        }
+
+        // Return the new head of the list
+        return dummy.next;
+    }
+
+    // Helper method to print the linked list
+    public static void printList(ListNode head) {
+        while (head != null) {
+            System.out.print(head.val+ " ");
+            head = head.next;
+        }
+        System.out.println();
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        // Create the linked list 1 -> 2 -> 3 -> 4
+        ListNode head = new ListNode(1);
+        head.next = new ListNode(2);
+        head.next.next = new ListNode(3);
+        head.next.next.next = new ListNode(4);
+
+        System.out.println("Original list:");
+        printList(head);
+
+        // Swap pairs
+        head = swapPairs(head);
+
+        System.out.println("List after swapping pairs:");
+        printList(head);
+    }
+}
