@@ -1,0 +1,63 @@
+import java.util.HashSet;
+import java.util.Set;
+
+ class ValidParenthesisString {
+
+    public static void main(String[] args) {
+        String s = "(*))"; // Example input
+        System.out.println(isValid(s)); // Output: true
+    }
+
+    public static boolean isValid(String s) {
+        Set<String> results = new HashSet<>();
+        generateAllCombinations(s, 0, new StringBuilder(), results);
+        for (String result : results) {
+            if (isBalanced(result)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static void generateAllCombinations(String s, int index, StringBuilder current, Set<String> results) {
+        if (index == s.length()) {
+            results.add(current.toString());
+            return;
+        }
+
+        char ch = s.charAt(index);
+        current.append(ch);
+        generateAllCombinations(s, index + 1, current, results);
+        current.deleteCharAt(current.length() - 1); // Backtrack
+
+        if (ch == '*') {
+            // Try the case of replacing '*' with '('
+            current.append('(');
+            generateAllCombinations(s, index + 1, current, results);
+            current.deleteCharAt(current.length() - 1); // Backtrack
+
+            // Try the case of replacing '*' with ')'
+            current.append(')');
+            generateAllCombinations(s, index + 1, current, results);
+            current.deleteCharAt(current.length() - 1); // Backtrack
+
+            // Try the case of replacing '*' with an empty string
+            generateAllCombinations(s, index + 1, current, results);
+        }
+    }
+
+    private static boolean isBalanced(String str) {
+        int balance = 0;
+        for (char ch : str.toCharArray()) {
+            if (ch == '(') {
+                balance++;
+            } else if (ch == ')') {
+                balance--;
+            }
+            if (balance < 0) {
+                return false; // More ')' than '('
+            }
+        }
+        return balance == 0; // Check if all '(' are matched
+    }
+}
