@@ -1,0 +1,95 @@
+import java.util.HashMap;
+
+class LRUCache {
+    class Node {
+        int key;
+        int value;
+        Node prev;
+        Node next;
+
+        Node(int key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+    }
+
+    private final int capacity;
+    private final HashMap<Integer, Node> cache;
+    private Node head;
+    private Node tail;
+
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        this.cache = new HashMap<>();
+        this.head = new Node(0, 0); // Dummy head
+        this.tail = new Node(0, 0); // Dummy tail
+        head.next = tail;
+        tail.prev = head;
+    }
+
+    private void addNode(Node node) {
+        node.prev = head;
+        node.next = head.next;
+        head.next.prev = node;
+        head.next = node;
+    }
+
+    private void removeNode(Node node) {
+        Node prevNode = node.prev;
+        Node nextNode = node.next;
+        prevNode.next = nextNode;
+        nextNode.prev = prevNode;
+    }
+
+    private void moveToHead(Node node) {
+        removeNode(node);
+        addNode(node);
+    }
+
+    private Node popTail() {
+        Node res = tail.prev;
+        removeNode(res);
+        return res;
+    }
+
+    public int get(int key) {
+        if (!cache.containsKey(key)) {
+            return -1; // Not found
+        }
+        Node node = cache.get(key);
+        moveToHead(node);
+        return node.value;
+    }
+
+    public void put(int key, int value) {
+        if (cache.containsKey(key)) {
+            Node node = cache.get(key);
+            node.value = value;
+            moveToHead(node);
+        } else {
+            Node newNode = new Node(key, value);
+            if (cache.size() >= capacity) {
+                Node tailNode = popTail();
+                cache.remove(tailNode.key);
+            }
+            addNode(newNode);
+            cache.put(key, newNode);
+        }
+    }
+}
+
+// Example usage
+public class Main {
+    public static void main(String[] args) {
+        LRUCache lruCache = new LRUCache(2);
+        lruCache.put(1, 1);
+        lruCache.put(2, 2);
+        System.out.println(lruCache.get(1)); // returns 1
+        lruCache.put(3, 3); // evicts key 2
+        System.out.println(lruCache.get(2)); // returns -1 (not found)
+        lruCache.put(4, 4); // evicts key 1
+        System.out.println(lruCache.get(1)); // returns -1 (not found)
+        System.out.println(lruCache.get(3)); // returns 3
+        System.out.println(lruCache.get(4)); // returns 4
+    }
+}
