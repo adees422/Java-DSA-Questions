@@ -1,0 +1,35 @@
+public class JumpGameII {
+    public int jump(int[] nums) {
+        return jumpRecursive(nums, 0);
+    }
+
+    private int jumpRecursive(int[] nums, int position) {
+        // If we're at the last index, no more jumps are needed
+        if (position >= nums.length - 1) {
+            return 0;
+        }
+
+        int maxJump = nums[position];
+        int minJumps = Integer.MAX_VALUE;
+
+        // Explore all possible jumps from the current position
+        for (int jump = 1; jump <= maxJump; jump++) {
+            int nextPosition = position + jump;
+            if (nextPosition < nums.length) {
+                int jumpsFromNext = jumpRecursive(nums, nextPosition);
+                if (jumpsFromNext != Integer.MAX_VALUE) {
+                    minJumps = Math.min(minJumps, 1 + jumpsFromNext);
+                }
+            }
+        }
+
+        return minJumps;
+    }
+
+    public static void main(String[] args) {
+        JumpGameII jg = new JumpGameII();
+        int[] nums = {2, 3, 1, 1, 4};
+        int result = jg.jump(nums);
+        System.out.println("Minimum jumps: " + result);
+    }
+}
