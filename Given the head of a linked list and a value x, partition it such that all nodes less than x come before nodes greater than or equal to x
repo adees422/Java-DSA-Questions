@@ -1,0 +1,66 @@
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int x) { val = x; }
+}
+
+ class Solution {
+    public ListNode partition(ListNode head, int x) {
+        // Create dummy nodes for the two partitions
+        ListNode lessHead = new ListNode(0);
+        ListNode greaterHead = new ListNode(0);
+
+        // Pointers for the current end of each partition
+        ListNode less = lessHead;
+        ListNode greater = greaterHead;
+
+        // Traverse the original list
+        ListNode current = head;
+        while (current != null) {
+            if (current.val < x) {
+                less.next = current; // Add to less list
+                less = less.next;
+            } else {
+                greater.next = current; // Add to greater list
+                greater = greater.next;
+            }
+            current = current.next;
+        }
+
+        // Connect the two partitions
+        greater.next = null; // End the greater list
+        less.next = greaterHead.next; // Connect less to greater
+
+        return lessHead.next; // Return the head of the less partition
+    }
+
+    // Method to print the linked list (for testing purposes)
+    public void printList(ListNode head) {
+        ListNode current = head;
+        while (current != null) {
+            System.out.print(current.val + " -> ");
+            current = current.next;
+        }
+        System.out.println("null");
+    }
+
+    // Example usage
+    public static void main(String[] args) {
+        // Creating a linked list: 1 -> 4 -> 3 -> 2 -> 5 -> 2
+        ListNode head = new ListNode(1);
+        head.next = new ListNode(4);
+        head.next.next = new ListNode(3);
+        head.next.next.next = new ListNode(2);
+        head.next.next.next.next = new ListNode(5);
+        head.next.next.next.next.next = new ListNode(2);
+
+        int x = 3; // Partition value
+
+        // Partitioning the list
+        Solution solution = new Solution();
+        ListNode newHead = solution.partition(head, x);
+
+        // Printing the result
+        solution.printList(newHead); // Expected output: 1 -> 2 -> 2 -> 4 -> 3 -> 5 -> null
+    }
+}
