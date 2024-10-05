@@ -1,0 +1,37 @@
+}
+public static boolean m1(char arr[][],String word)
+{
+   // if(arr==null || word==null )return false;
+    int rows=arr.length;
+    int col=arr[0].length;
+    for(int i=0;i<rows;i++)
+    {
+        for(int j=0;j<col;j++)
+        {
+            if(backtrack(arr,word,i,j,0))
+            {
+                return true;
+            }
+        }
+    }
+    return  false;
+}
+public static boolean backtrack(char[][]arr,String word,int i,int j,int ind)
+{
+    if(ind==word.length())return true;
+    if(i<0 || j>=arr[0].length || j<0 || i>= arr.length || arr[i][j]!=word.charAt(ind))
+    {
+        return false;
+    }
+    char temp=arr[i][j];
+    arr[i][j]='#';
+    for(int dir=0; dir<8;dir++)
+    {
+        int newrow=i+a1[dir];
+        int newcol=j+b1[dir];
+        if(backtrack(arr,word,newrow,newcol,i+1)){return true;
+    }}
+    arr[i][j]=temp;
+    return false;
+
+}
