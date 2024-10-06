@@ -1,0 +1,37 @@
+class node
+{
+    int data;
+    node left;
+    node right;
+    node(int dataq)
+    {
+        this.data=dataq;
+        left=null;
+        right=null;
+
+    }
+
+}
+class hi
+{
+    public static int m1(node root)
+    {
+        if(root==null)return 0;
+        int leftheight=m1(root.left);
+        int rightheight=m1(root.right);
+   
+        return Math.max(leftheight,rightheight)+1;
+
+    }
+    public static void main(String[]aeas)
+
+    {
+        node root=new node(1);
+        root.left=new node(2);
+        root.right=new node(3);
+      
+        hi h=new hi();
+        int he=h.m1(root);
+        System.out.print(he);
+    }
+}
