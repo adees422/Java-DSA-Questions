@@ -1,0 +1,35 @@
+import java.util.HashMap;
+
+class MaxLengthSubarray {
+
+    public static void main(String[] args) {
+        int[] nums = {1, 2, 1, 2, 3, 2, 1}; // Example input
+        int maxLength = maxLengthSubarrayWithAtMostTwoTypes(nums);
+        System.out.println("Maximum length of subarray with at most two types: " + maxLength);
+    }
+
+    public static int maxLengthSubarrayWithAtMostTwoTypes(int[] nums) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int left = 0; // Left boundary of the window
+        int maxLength = 0;
+
+        for (int right = 0; right < nums.length; right++) {
+            // Add the current number to the map
+            map.put(nums[right], map.getOrDefault(nums[right], 0) + 1);
+
+            // If we have more than 2 distinct numbers, shrink the window
+            while (map.size() > 2) {
+                map.put(nums[left], map.get(nums[left]) - 1);
+                if (map.get(nums[left]) == 0) {
+                    map.remove(nums[left]);
+                }
+                left++;
+            }
+
+            // Update the maximum length
+            maxLength = Math.max(maxLength, right - left + 1);
+        }
+
+        return maxLength;
+    }
+}
