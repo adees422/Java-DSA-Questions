@@ -1,0 +1,42 @@
+
+
+class node
+{
+    int data;
+    node left;
+    node right;
+    node(int data)
+    {
+        this.data=data;
+
+    }
+}
+class sol
+{
+    public node m1(node root,node a,node b)
+    {
+        if(root==null || root==a|| root==b)return root;
+        node left=m1(root.left,a,b);
+        node right=m1(root.right,a,b);
+        if(left==null)return right;
+        else if(right==null)return left;
+        else return root;
+
+    }
+    public static void main(String[] args) {
+        // Creating a sample binary tree
+        node root = new node(1);
+        root.left = new node(2);
+        root.right = new node(3);
+        root.left.left = new node(4);
+        root.left.right = new node(5);
+        root.right.left = new node(6);
+        root.right.right = new node(7);
+        sol s=new sol();
+   //  System.out.println( s.m1(root,root.left.left,root.left.right));  /// s.m1(root,root.left.left,root.left.right);
+        node a = root.left.left; // Node 4
+        node b = root.left.right; // Node 5
+        node lca = s.m1(root, a, b);
+        System.out.println("LCA of " + a.data + " and " + b.data + " is: " + lca.data); // Should print 2
+
+    }}
