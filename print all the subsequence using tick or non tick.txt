@@ -1,0 +1,40 @@
+import java.util.ArrayList;
+import java.util.List;
+
+class SubsequenceSum {
+
+    // Recursive method to find all subsequences that sum up to the given sum
+    public static void findSubsequences(int[] arr, List<Integer> current, int i, int currentSum, int targetSum) {
+        // Base case: if we've reached the end of the array
+        if (i == arr.length) {
+            // Check if the sum of the current subsequence equals the target sum
+            if (currentSum == targetSum && !current.isEmpty()) {
+                System.out.println(current);
+            }
+            return;
+        }
+
+        // Recursive case 1: Include the current element in the subsequence
+        current.add(arr[i]);
+        findSubsequences(arr, current, i + 1, currentSum + arr[i], targetSum);
+
+        // Backtrack: Remove the last element from the subsequence
+        current.remove(current.size() - 1);
+
+        // Recursive case 2: Exclude the current element from the subsequence
+        findSubsequences(arr, current, i + 1, currentSum, targetSum);
+    }
+
+    public static void findSubsequences(int[] arr, int sum) {
+        ArrayList<Integer> current = new ArrayList<>();
+        findSubsequences(arr, current, 0, 0, sum);
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 3, 4, 5};  // Example array
+        int sum = 5;  // Example target sum
+
+        System.out.println("Subsequences that sum up to " + sum + ":");
+        findSubsequences(arr, sum);
+    }
+}
