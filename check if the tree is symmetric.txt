@@ -1,0 +1,66 @@
+class node
+{
+    node left;
+    node right;
+    int data;
+    node(int data)
+    {
+        this.data=data;
+    }
+}
+class sol
+{
+    public static boolean m1(node root1,node root2)
+    {
+        if(root1==null || root2==null)
+        {
+            return root1==root2;
+        }
+        return (root1.data==root2.data) && m1(root1.left,root2.right) && m1(root1.right,root2.left);
+
+    }
+    public static boolean m2(node root)
+    {
+        if(root==null)return true;
+        return m1(root.left,root.right);
+
+    }
+}
+class main
+{
+    public static void print(node root)
+    {
+        if(root==null)
+        {
+            return;
+        }
+        print(root.left);
+        System.out.print(root.data);
+        print(root.right);
+
+    }
+    public static void main(String[] args) {
+        // Creating a sample binary tree
+        node root = new node(1);
+        root.left = new node(2);
+        root.right = new node(2);
+        root.left.left = new node(3);
+        root.right.right = new node(3);
+        root.left.right = new node(4);
+        root.right.left = new node(4);
+
+        sol solution = new sol();
+
+        System.out.print("Binary Tree (Inorder): ");
+        print(root);
+        System.out.println();
+
+        boolean res = solution.m2(root);
+
+        if (res) {
+            System.out.println("This Tree is Symmetrical");
+        } else {
+            System.out.println("This Tree is NOT Symmetrical");
+        }
+    }
+}
