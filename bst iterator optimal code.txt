@@ -1,0 +1,61 @@
+import java.util.Stack;
+
+// Definition for a binary tree node.
+class Node {
+    int data;
+    Node left;
+    Node right;
+
+    Node(int data) {
+        this.data = data;
+    }
+}
+
+class BSTIterator {
+    private Stack<Node> stack = new Stack<>();
+
+    // Constructor that initializes the iterator with the root of the BST
+    public BSTIterator(Node root) {
+        pushAll(root);
+    }
+
+    // Checks if there is a next smallest number in the BST
+    public boolean hasNext() {
+        return !stack.isEmpty();
+    }
+
+    // Returns the next smallest number in the BST
+    public int next() {
+        Node temp = stack.pop(); // Get the top node
+        pushAll(temp.right); // Push all left children of the right subtree
+        return temp.data; // Return the value of the node
+    }
+
+    // Helper method to push all left nodes onto the stack
+    private void pushAll(Node node) {
+        while (node != null) {
+            stack.push(node); // Push the current node onto the stack
+            node = node.left; // Move to the left child
+        }
+    }
+}
+
+// Example usage
+public class Main {
+    public static void main(String[] args) {
+        // Creating a simple BST
+        Node root = new Node(7);
+        root.left = new Node(3);
+        root.right = new Node(15);
+        root.right.left = new Node(9);
+        root.right.right = new Node(20);
+
+        // Creating the iterator
+        BSTIterator iterator = new BSTIterator(root);
+
+        // Using the iterator
+        while (iterator.hasNext()) {
+            System.out.print(iterator.next());
+        }
+    }
+}
