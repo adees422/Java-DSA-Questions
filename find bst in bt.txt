@@ -1,0 +1,69 @@
+public class BinaryTree {
+    
+    static class Node {
+        int data;
+        Node left, right;
+
+        Node(int item) {
+            data = item;
+            left = right = null;
+        }
+    }
+
+    // Helper class to store information for each node
+    static class BSTInfo {
+        boolean isBST;
+        int size;
+        int min;
+        int max;
+
+        BSTInfo(boolean isBST, int size, int min, int max) {
+            this.isBST = isBST;
+            this.size = size;
+            this.min = min;
+            this.max = max;
+        }
+    }
+
+    // Function to find the largest BST in the binary tree
+    public static int largestBSTSubtree(Node root) {
+        return largestBST(root).size;
+    }
+
+    // Helper function to calculate the largest BST in the subtree rooted at 'node'
+    private static BSTInfo largestBST(Node node) {
+        // Base case: Empty tree is a BST of size 0
+        if (node == null) {
+            return new BSTInfo(true, 0, Integer.MAX_VALUE, Integer.MIN_VALUE);
+        }
+
+        // Recursively get the info from the left and right subtrees
+        BSTInfo left = largestBST(node.left);
+        BSTInfo right = largestBST(node.right);
+
+        // Check if the current node is part of a BST
+        if (left.isBST && right.isBST && node.data > left.max && node.data < right.min) {
+            // Current node is part of a valid BST
+            int size = left.size + right.size + 1;
+            int min = Math.min(node.data, left.min);
+            int max = Math.max(node.data, right.max);
+            return new BSTInfo(true, size, min, max);
+        }
+
+        // If current node is not part of a BST, return the largest BST size found in the subtrees
+        return new BSTInfo(false, Math.max(left.size, right.size), 0, 0);
+    }
+
+    public static void main(String[] args) {
+        BinaryTree tree = new BinaryTree();
+        Node root = new Node(10);
+        root.left = new Node(5);
+        root.right = new Node(15);
+        root.left.left = new Node(1);
+        root.left.right = new Node(8);
+        root.right.left = new Node(12);
+        root.right.right = new Node(7); // This breaks the BST property
+
+        System.out.println("Largest BST size: " + tree.largestBSTSubtree(root));  // Output: 3 (BST is rooted at 5)
+    }
+}
