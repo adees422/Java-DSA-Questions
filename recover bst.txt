@@ -1,0 +1,79 @@
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int val) {
+        this.val = val;
+    }
+}
+
+ class BSTRecovery {
+
+    private TreeNode first = null, middle = null, last = null, prev = null;
+
+    public void recoverTree(TreeNode root) {
+        // Perform in-order traversal to find the two swapped nodes
+        inorderTraversal(root);
+
+        // If the swapped nodes are adjacent, swap first and middle
+        // If the swapped nodes are non-adjacent, swap first and last
+        if (first != null && last != null) {
+            int temp = first.val;
+            first.val = last.val;
+            last.val = temp;
+        } else if (first != null && middle != null) {
+            int temp = first.val;
+            first.val = middle.val;
+            middle.val = temp;
+        }
+    }
+
+    private void inorderTraversal(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+
+        inorderTraversal(root.left);
+
+        // Check for violation of the BST property
+        if (prev != null && prev.val > root.val) {
+            // If this is the first violation, mark first and middle
+            if (first == null) {
+                first = prev;
+                middle = root;
+            } else {
+                // If this is the second violation, mark last
+                last = root;
+            }
+        }
+
+        prev = root; // Update the previous node to the current node
+
+        inorderTraversal(root.right);
+    }
+
+    public static void main(String[] args) {
+        // Example usage:
+        TreeNode root = new TreeNode(3);
+        root.left = new TreeNode(1);
+        root.right = new TreeNode(4);
+        root.right.left = new TreeNode(2);
+
+        BSTRecovery recovery = new BSTRecovery();
+        System.out.println("Before recovery:");
+        printInOrder(root);
+
+        recovery.recoverTree(root);
+
+        System.out.println("\nAfter recovery:");
+        printInOrder(root);
+    }
+
+    // Helper method to print the tree in-order
+    public static void printInOrder(TreeNode root) {
+        if (root != null) {
+            printInOrder(root.left);
+            System.out.print(root.val + " ");
+            printInOrder(root.right);
+        }
+    }
+}
