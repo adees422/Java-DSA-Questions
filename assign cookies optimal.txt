@@ -1,0 +1,47 @@
+import java.util.Arrays;
+
+//assign cookies
+class hi
+{
+    public static int m1(int g[],int c[])
+    {
+        Arrays.sort(g);
+        Arrays.sort(c);
+        int n=g.length;
+        int m=c.length;
+        int r=0;
+        int l=0;
+        while(r<m)
+        {
+            if(c[r]>=g[l])
+            {
+                l++;
+            }
+r++;   }
+        return l;
+  }
+  public static void main(String[]asgrs)
+  {
+      int[] greed = {1, 5, 3, 3, 4};
+      int[] cookieSize = {4, 2, 1, 2, 1, 3};
+
+      System.out.print("Array Representing Greed: ");
+      for (int i = 0; i < greed.length; i++) {
+          System.out.print(greed[i] + " ");
+      }
+      System.out.println();
+
+      System.out.print("Array Representing Cookie Size: ");
+      for (int i = 0; i < cookieSize.length; i++) {
+          System.out.print(cookieSize[i] + " ");
+      }
+
+      int ans = m1(greed, cookieSize);
+
+      System.out.println();
+      System.out.println("No. of kids assigned cookies " + ans);
+      System.out.println();
+  }
+}
+
+  
