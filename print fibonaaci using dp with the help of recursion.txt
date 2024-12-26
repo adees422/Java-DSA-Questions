@@ -1,0 +1,35 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+ class Fibonacci {
+
+    // Function to calculate Fibonacci using memoization (Dynamic Programming) and recursion
+    public static int fibonacci(int n, Map<Integer, Integer> memo) {
+        // Base cases
+        if (n <= 1) {
+            return n;
+        }
+
+        // If result is already in memo, return it
+        if (memo.containsKey(n)) {
+            return memo.get(n);
+        }
+
+        // Calculate Fibonacci recursively and store the result in memo
+        int result = fibonacci(n - 1, memo) + fibonacci(n - 2, memo);
+        memo.put(n, result); // Store the result in the memo map
+
+        return result;
+    }
+
+    // Function to print Fibonacci series up to n using recursion with dynamic programming
+
+
+    public static void main(String[] args) {
+        // Example: Print the first 10 Fibonacci numbers
+        int n = 5;
+        Map<Integer,Integer>arr=new HashMap<>();
+      System.out.println(fibonacci(n,arr)); fibonacci(n,arr);
+    }
+}
