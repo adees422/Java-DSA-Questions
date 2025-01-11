@@ -1,0 +1,38 @@
+import java.util.Scanner;
+
+public class ArmstrongNumber {
+    public static void main(String[] args) {
+        // Create a scanner object for user input
+        Scanner scanner = new Scanner(System.in);
+
+        // Ask the user for the range
+        System.out.print("Enter the upper limit to find Armstrong numbers: ");
+        int limit = scanner.nextInt();
+
+        System.out.println("Armstrong numbers from 1 to " + limit + " are:");
+        
+        // Loop through the numbers from 1 to the given limit
+        for (int num = 1; num <= limit; num++) {
+            int sum = 0, temp, remainder, digits = 0;
+
+            // Store the number in a temporary variable
+            temp = num;
+
+            // Count the number of digits in the number
+            while (temp != 0) {
+                temp /= 10;
+                digits++;
+            }
+
+            // Reset temp to the original number
+            temp = num;
+
+            // Calculate the sum of the powers of the digits
+            while (temp != 0) {
+                remainder = temp % 10;
+                sum += Math.pow(remainder, digits);
+                temp /= 10;
+            }
+
+            // Check if the number is an Armstrong number
+        
