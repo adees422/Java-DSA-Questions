@@ -1,0 +1,18 @@
+import java.util.*;
+class hi
+{
+    public static void main(String[]asrgs)
+    {
+        int n=2;
+         int pvs1=1;
+         int pvs0=0;
+         for(int i=2;i<=n;i++)
+         {
+             int ans=pvs0+pvs1;
+             pvs0=pvs1;
+             pvs1=ans;
+
+         }
+         System.out.print(pvs1);
+    }
+}
