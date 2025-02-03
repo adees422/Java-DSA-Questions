@@ -1,0 +1,52 @@
+import java.util.*;
+class node
+{
+    int data;
+    node next;
+    node(int data)
+    {
+        this.data=data;
+    }
+}
+class sol
+{
+    public static List<Integer> m1(List<Integer>arr,node head)
+    {
+        node temp=head;
+        while(temp!=null && temp.next!=null)
+        {
+            arr.add(temp.data);
+            temp=temp.next.next;
+
+        }
+        if(temp!=null)arr.add(temp.data);
+        temp=head.next;
+        while(temp!=null && temp.next!=null)
+        {
+            arr.add(temp.data);
+            temp=temp.next.next;
+
+        }
+        if(temp!=null)arr.add(temp.data);
+        return arr;
+
+    }
+    static void PrintList(node head) // Function to print the LinkedList
+    {
+        node curr = head;
+        for (; curr != null; curr = curr.next)
+            System.out.print(curr.data+"-->");
+        System.out.println("null");
+    }
+    public static void main(String[]argsa)
+    {
+        node head = new node(9);
+        head.next = new node(0);
+        head.next.next = new node(11);
+        head.next.next.next = new node(0);
+        head.next.next.next.next = new node(13);
+        List<Integer>arr=new ArrayList<>(8);
+    System.out.print(m1(arr,head));
+    //PrintList(head);
+    }
+}
