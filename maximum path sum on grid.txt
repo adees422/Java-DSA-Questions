@@ -1,0 +1,23 @@
+class hi
+{
+    public static int m1(int i,int j,int m[][])
+    {
+        if(i==0&&j==0)return m[i][j];
+        if(i<0 || j<0 )return  (int) Math.pow(10,9);
+        int up= m[i][j]+m1(i-1,j,m);
+        int left=m[i][j]+m1(i,j-1,m);
+        return Math.min(up,left);
+
+    }
+    public static void main(String[]ars)
+    {
+
+        int matrix[][] = {
+                {5, 9, 6},
+                {11, 5, 2}
+        };
+        int n=matrix.length;
+        int m=matrix[0].length;
+        System.out.print(m1(n-1,m-1,matrix));
+    }
+}
