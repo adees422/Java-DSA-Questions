@@ -1,0 +1,22 @@
+
+import java.util.*;
+
+class TUF{
+    static int[] solve(int arr[], int n) {
+        int temp[]=new int[n];
+        for (int i = 1; i < n; i++) {
+            temp[i - 1] = arr[i];
+        }
+        temp[n - 1] = arr[0];
+       return temp;
+    }
+    public static void main(String args[]) {
+        int n=5;
+
+        int arr[]= {1,2,3,4,5};
+        int ans[]=solve(arr, n);
+        for(int i=0;i<arr.length;i++){
+        System.out.print(ans[i]);
+    }}
+}
+
