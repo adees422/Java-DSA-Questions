@@ -1,35 +1,34 @@
- class tuf {
-
+ class TriangleMinimumPathSum {
     public static void main(String[] args) {
+        // Example triangle
+        int[][] triangle = {
+                {2},
+                {3, 4},
+                {6, 5, 7},
+                {4, 1, 8, 3}
+        };
 
-        stack s = new stack();
-        s.push(6);
-        s.push(3);
-        s.push(7);
-        System.out.println("Top of the stack before deleting any element " + s.top());
-        System.out.println("Size of the stack before deleting any element " + s.size());
-        System.out.println("The element deleted is " + s.pop());
-        System.out.println("Size of the stack after deleting an element " + s.size());
-        System.out.println("Top of the stack after deleting an element " + s.top());
+        // Calculate the minimum path sum
+        int minPathSum = findMinimumPathSum(triangle);
+        System.out.println("Minimum Path Sum: " + minPathSum);
     }
-}
-class stack {
-    int size = 10000;
-    int arr[] = new int[size];
-    int top = -1;
-    void push(int x) {
-        top++;
-        arr[top] = x;
+
+    public static int findMinimumPathSum(int[][] triangle) {
+        return findMinimumPathSum(triangle, 0, 0);
     }
-    int pop() {
-        int x = arr[top];
-        top--;
-        return x;
-    }
-    int top() {
-        return arr[top];
-    }
-    int size() {
-        return top + 1;
+
+    // Recursive method to find minimum path sum
+    private static int findMinimumPathSum(int[][] triangle, int row, int col) {
+        // Base case: if we're at the last row
+        if (row == triangle.length - 1) {
+            return triangle[row][col];
+        }
+
+        // Calculate the path sums for the two possible moves
+        int leftPathSum = findMinimumPathSum(triangle, row + 1, col);
+        int rightPathSum = findMinimumPathSum(triangle, row + 1, col + 1);
+
+        // Return the minimum path sum including the current position
+        return triangle[row][col] + Math.min(leftPathSum, rightPathSum);
     }
 }
