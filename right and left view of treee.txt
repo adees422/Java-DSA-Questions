@@ -1,0 +1,36 @@
+import java.util.ArrayList;
+import java.util.List;
+
+class Node {
+    int data;
+    Node left;
+    Node right;
+
+    Node(int data1) {
+        this.data = data1;
+        left = null;
+        right = null;
+    }
+
+    public static List<Integer> m1(Node root, int lev, List<Integer> ds) {
+        if (root == null) return ds; // Return the list if the node is null
+        if (lev == ds.size()) ds.add(root.data); // Add the first node at each level
+        m1(root.right, lev + 1, ds); // Traverse left subtree
+        m1(root.left, lev + 1, ds); // Traverse right subtree
+        return ds; // Return the list
+    }
+
+    public static void main(String[] args) {
+        // Creating a sample binary tree
+        Node root = new Node(1);
+        root.left = new Node(2);
+        root.right = new Node(3);
+        root.left.left = new Node(4);
+        root.right.right = new Node(7);
+        root.left.right = new Node(5);
+        root.left.right.left = new Node(6);
+
+        List<Integer> result = m1(root, 0, new ArrayList<>()); // Initialize the list and call m1
+        System.out.println(result); // Print the result
+    }
+}
