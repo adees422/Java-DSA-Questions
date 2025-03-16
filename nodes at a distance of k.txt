@@ -1,0 +1,103 @@
+import java.util.*;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+
+    TreeNode(int val) {
+        this.val = val;
+        left = right = null;
+    }
+}
+
+class NodesAtDistanceK {
+
+    // Function to map parent nodes using a HashMap
+    private void mapParents(TreeNode root, Map<TreeNode, TreeNode> parentMap) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+            TreeNode current = queue.poll();
+
+            if (current.left != null) {
+                parentMap.put(current.left, current);
+                queue.offer(current.left);
+            }
+
+            if (current.right != null) {
+                parentMap.put(current.right, current);
+                queue.offer(current.right);
+            }
+        }
+    }
+
+    // Function to print all nodes at distance k from target node
+    public void printNodesAtDistanceK(TreeNode root, TreeNode target, int k) {
+        Map<TreeNode, TreeNode> parentMap = new HashMap<>();
+        mapParents(root, parentMap);
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        Set<TreeNode> visited = new HashSet<>();
+
+        queue.offer(target);
+        visited.add(target);
+        int currentDistance = 0;
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+
+            // If we have reached the desired distance
+            if (currentDistance == k) {
+                System.out.println("Nodes at distance " + k + " from node " + target.val + ":");
+                for (TreeNode node : queue) {
+                    System.out.println(node.val); // Print only the value of the node
+                }
+                return; // Exit after printing the nodes at distance k
+            }
+
+            for (int i = 0; i < size; i++) {
+                TreeNode current = queue.poll();
+
+                // Check left child
+                if (current.left != null && !visited.contains(current.left)) {
+                    visited.add(current.left);
+                    queue.offer(current.left);
+                }
+
+                // Check right child
+                if (current.right != null && !visited.contains(current.right)) {
+                    visited.add(current.right);
+                    queue.offer(current.right);
+                }
+
+                // Check parent
+                TreeNode parent = parentMap.get(current);
+                if (parent != null && !visited.contains(parent)) {
+                    visited.add(parent);
+                    queue.offer(parent);
+                }
+            }
+
+            currentDistance++;
+        }
+    }
+
+    public static void main(String[] args) {
+        TreeNode root = new TreeNode(3);
+        root.left = new TreeNode(5);
+        root.right = new TreeNode(1);
+        root.left.left = new TreeNode(6);
+        root.left.right = new TreeNode(2);
+        root.right.left = new TreeNode(0);
+        root.right.right = new TreeNode(8);
+        root.left.right.left = new TreeNode(7);
+        root.left.right.right = new TreeNode(4);
+
+        NodesAtDistanceK tree = new NodesAtDistanceK();
+        TreeNode target = root.left; // Node with value 5
+        int k = 2;
+
+        tree.printNodesAtDistanceK(root, target, k);
+    }
+}
