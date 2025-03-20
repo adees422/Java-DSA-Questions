@@ -1,0 +1,50 @@
+import java.util.*;
+class interval
+{
+    int st;
+    int end;
+    interval(int st,int end)
+    {
+        this.st=st;
+        this.end=end;
+    }
+}
+class hi
+{
+    public static List<interval>m1(List<interval>intervals,interval newinterval)
+    {
+        List<interval>res=new ArrayList<>();
+        int i=0;
+        while(i<intervals.size() && intervals.get(i).end< newinterval.st)
+        {
+            res.add(intervals.get(i));
+            i++;
+        }
+        while(i<intervals.size() && intervals.get(i).st<=newinterval.end)
+        {
+            newinterval.st = Math.min(newinterval.st, intervals.get(i).st);
+            newinterval.end = Math.max(newinterval.end, intervals.get(i).end);
+            i++;
+        }
+        res.add(newinterval);
+        while(i<intervals.size())
+        {
+            res.add(intervals.get(i));
+            i++;
+        }
+        return  res;
+    }
+    public static void main(String[]agsa)
+    {
+        List<interval>l=new ArrayList<>();
+        l.add(new interval(1,3));
+        l.add(new interval(6,9));
+        interval i=new interval(2,5);
+        List<interval> result = m1(l, i);
+        for (interval interval : result) {
+            System.out.println("[" + interval.st + ", " + interval.end + "]");
+        }
+
+    }
+}
+
