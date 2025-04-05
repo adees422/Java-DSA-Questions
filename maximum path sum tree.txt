@@ -1,0 +1,42 @@
+class Node
+{
+    int data;
+    Node left;
+    Node right;
+    Node(int data)
+    {
+        this.data=data;
+        left=right=null;
+    }
+}
+class sol
+{
+    public static int m1(Node root,int maxi[])
+    {
+        if(root==null)return 0;
+        int left=Math.max(0,m1(root.left,maxi));
+        int right=Math.max(0,m1(root.right,maxi));
+        maxi[0]=Math.max(left+right+ root.data,maxi[0]);
+        return Math.max(left,right)+root.data;
+
+    }
+    public static int m2(Node root)
+    {
+        int maxi[]={Integer.MIN_VALUE};
+        m1(root,maxi);
+        return maxi[0];
+    }
+    public static void main(String[] args) {
+        // Creating a sample binary tree
+        Node root = new Node(11);
+        root.left = new Node(19);
+        root.right = new Node(15);
+
+
+        // Creating an instance of the Solution class
+        sol solution = new sol();
+
+        // Finding and printing the maximum path sum
+        int maxPathSum = solution.m2(root);
+        System.out.println("Maximum Path Sum: " + maxPathSum);
+}}
